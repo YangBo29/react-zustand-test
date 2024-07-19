@@ -1,0 +1,10 @@
+{
+    "watch": ["config/"],
+    "ext": "js,json",
+    "execMap": {
+        "js": "node"
+    },
+    "events": {
+        "restart": "npm run restart"
+    }
+}

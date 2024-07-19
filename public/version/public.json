@@ -1,0 +1,6 @@
+{
+    "name": "public",
+    "version": "v3.2.0",
+    "versionCount": "3.2.0",
+    "describe": "公有版本--version: 页面显示版本号, versionCount: 项目存储版本号"
+}

@@ -1,0 +1,6 @@
+{
+    "name": "private",
+    "version": "v3.0.0",
+    "versionCount": "3.0.0",
+    "describe": "私有版本--version: 页面显示版本号, versionCount: 项目存储版本号"
+}
