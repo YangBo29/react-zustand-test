@@ -9,7 +9,7 @@ const common = require('./webpack.common.js');
 // 打包后文件视图
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // gz 压缩插件
-// const CompressionPlugin = require('compression-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 // css 压缩
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 // css文件分离
@@ -18,6 +18,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 // 代码混淆插件
 const WebpackObfuscator = require('webpack-obfuscator');
+// 循环依赖
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 
 const prodConfig = merge(common, {
     mode: 'production',
@@ -30,7 +32,7 @@ const prodConfig = merge(common, {
             cacheGroups: {
                 common: {
                     name: 'common',
-                    test: /[\\/]node_modules[\\/](mathjs|lodash|lodash.get|moment|lodash.isequal)[\\/]/,
+                    test: /[\\/]node_modules[\\/](mathjs|lodash|moment)[\\/]/,
                     priority: -8,
                 },
                 echarts: {
@@ -60,7 +62,7 @@ const prodConfig = merge(common, {
                 // 开启多线程压缩
                 parallel: true,
                 // 过滤文件类型
-                test: /\.jsx?|tsx?$/,
+                test: /\.jsx?$|\.tsx?$/,
                 // 压缩过滤条件
                 terserOptions: {
                     compress: {
@@ -78,12 +80,20 @@ const prodConfig = merge(common, {
         ],
     },
     plugins: [
+        new CircularDependencyPlugin({
+            // 排除检测的文件或目录
+            exclude: /node_modules/,
+            // 在控制台显示循环依赖
+            failOnError: true,
+            allowAsyncCycles: false,
+            cwd: process.cwd(),
+        }),
         new WebpackObfuscator(
             {
                 // 压缩代码
-                compact: true,
+                compact: false,
                 // 随机的死代码块(增加了混淆代码的大小)
-                deadCodeInjection: true,
+                deadCodeInjection: false,
                 // 死代码块的影响概率
                 deadCodeInjectionThreshold: 0.3,
                 // TODO 可能会和忽略文件冲突 此选项几乎不可能使用开发者工具的控制台选项卡
@@ -104,13 +114,13 @@ const prodConfig = merge(common, {
         new MiniCssExtractPlugin({
             filename: `css/[name]_[contenthash:4].css`,
         }),
-        // new CompressionPlugin({
-        //     filename: 'gz/[path][base].gz[query]',
-        //     algorithm: 'gzip',
-        //     minRatio: 0.8,
-        //     threshold: 10240,
-        //     deleteOriginalAssets: false,
-        // }),
+        new CompressionPlugin({
+            filename: '[path][base].gz',
+            algorithm: 'gzip',
+            minRatio: 0.8,
+            threshold: 10240,
+            deleteOriginalAssets: false,
+        }),
         new BundleAnalyzerPlugin(),
     ],
     module: {
