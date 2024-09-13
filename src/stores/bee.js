@@ -30,6 +30,11 @@ export const useBeeStore = create(
                     });
                 });
 
+                // set(state => {
+                //     console.log('setBee start');
+                //     _.set(state, `bee[${bee[0]}]`, bee[1]);
+                // });
+
                 console.log('setBee end');
             },
         })),

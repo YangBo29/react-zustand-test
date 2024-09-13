@@ -12,8 +12,7 @@ import { useBeeStore } from '@stores/bee';
 let name = 'Alan';
 
 function Template(props) {
-    const food = useFoodStore(state => state.food);
-    const setFood = useFoodStore(state => state.setFood);
+    const { food, setFood } = useFoodStore();
     const setBee = useBeeStore(state => state.setBee);
 
     // 备注会被打到包里么
@@ -65,37 +64,6 @@ function Template(props) {
                 {foodList}
             </div>
             <div>这是食物选择</div>
-
-            <div
-                style={{
-                    width: '400px',
-                    height: '400px',
-                    background: 'red',
-                    overflow: 'auto',
-                    position: 'relative',
-                }}
-                onBlur={() => {
-                    console.log('onBlur==========');
-                }}
-                onFocus={() => {
-                    console.log('onFocus==========');
-                }}
-            >
-                <div style={{ width: '100px', height: '500px', background: 'pink' }}>relative</div>
-                <div
-                    style={{
-                        width: '100px',
-                        height: '100px',
-                        background: 'pink',
-                        position: 'absolute',
-                    }}
-                    onClick={() => {
-                        console.log('onClick------------');
-                    }}
-                >
-                    con
-                </div>
-            </div>
         </>
     );
 }

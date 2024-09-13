@@ -12,7 +12,6 @@ import Private from '@layouts/private';
 
 function App(props) {
     const [isAuthenticated, setIsAuthenticated] = useState(true);
-    console.log('App', props, process.env.DEPLOY);
 
     // useEffect(() => {
     //     // 模拟权限检查，可以替换为实际的检查逻辑
@@ -29,6 +28,8 @@ function App(props) {
     //     // 模拟的异步权限检查逻辑
     //     return new Promise(resolve => setTimeout(() => resolve(true), 1000));
     // };
+
+    console.log('App', props, process.env);
 
     switch (process.env.DEPLOY) {
         case 'private':
