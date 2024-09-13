@@ -120,6 +120,7 @@ const prodConfig = merge(common, {
             minRatio: 0.8,
             threshold: 10240,
             deleteOriginalAssets: false,
+            exclude: /public\//,
         }),
         new BundleAnalyzerPlugin(),
     ],
